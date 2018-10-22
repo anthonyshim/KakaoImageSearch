@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:databinding="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.anthony.kakaoimagesearch.common.NotifyType" />
+
+        <variable
+            name="viewModel"
+            type="com.anthony.kakaoimagesearch.main.MainViewModel" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".main.MainActivity">
+
+        <EditText
+            android:id="@+id/edittext_search"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:afterTextChanged="@{viewModel::afterTextChanged}"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/baseline_search_black_24"
+            android:drawablePadding="6dp"
+            android:hint="@string/search_hint"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingLeft="6dp"
+            android:paddingRight="12dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edittext_search" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_divider"
+            databinding:searchImageItems="@{viewModel.searchImageItems}" />
+
+        <include
+            android:id="@+id/layout_notify"
+            layout="@layout/layout_notify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.notifyType == NotifyType.NONE ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@+id/recycler"
+            app:layout_constraintLeft_toLeftOf="@+id/recycler"
+            app:layout_constraintRight_toRightOf="@+id/recycler"
+            app:layout_constraintTop_toTopOf="@+id/recycler"
+            app:notifyType="@{viewModel.notifyType}" />
+
+        <android.support.v4.widget.ContentLoadingProgressBar
+            android:id="@+id/progress_loading"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:visibility="@{viewModel.isShowingrPogressBar ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/recycler"
+            app:layout_constraintLeft_toLeftOf="@+id/recycler"
+            app:layout_constraintRight_toRightOf="@+id/recycler"
+            app:layout_constraintTop_toTopOf="@+id/recycler" />
+    </android.support.constraint.ConstraintLayout>
+</layout>
